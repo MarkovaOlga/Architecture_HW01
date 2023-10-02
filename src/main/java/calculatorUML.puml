@@ -1,0 +1,57 @@
+@startuml
+interface calculator.ICalculableFactory {
+~ Calculable create(int)
+}
+class calculator.ViewCalculator {
+- ICalculableFactory calculableFactory
++ void run()
+- String prompt(String)
+- int promptInt(String)
+}
+class calculator.logger.Log {
++ void writeLog(String)
+}
+class calculator.logger.LogCalculator {
+- Calculable calculable
+~ Logger logger
++ Calculable sum(int)
++ Calculable multi(int)
++ int getResult()
+}
+class calculator.Main {
++ {static} void main(String[])
+}
+interface calculator.Calculable {
+~ Calculable sum(int)
+~ Calculable multi(int)
+~ int getResult()
+}
+interface calculator.logger.Logger {
+~ void writeLog(String)
+}
+class calculator.logger.LogCalculableFactor {
+~ Logger logger
++ Calculable create(int)
+}
+class calculator.Calculator {
+- int primaryArg
++ Calculable sum(int)
++ Calculable multi(int)
++ int getResult()
+}
+class calculator.CalculableFactory {
++ Calculable create(int)
+}
+
+
+calculator.logger.Logger <|.. calculator.logger.Log
+calculator.Calculable <|.. calculator.logger.LogCalculator
+calculator.ICalculableFactory <|.. calculator.logger.LogCalculableFactor
+calculator.Calculable <|.. calculator.Calculator
+calculator.ICalculableFactory <|.. calculator.CalculableFactory
+LogCalculableFactor *.. LogCalculator : creates
+Main ..> ViewCalculator : uses
+Main ..> LogCalculableFactor : uses
+ViewCalculator ..> calculator.ICalculableFactory : uses
+LogCalculableFactor ..> Logger : uses
+@enduml
